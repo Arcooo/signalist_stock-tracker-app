@@ -73,6 +73,12 @@ declare global {
         email: string;
     };
 
+    type UserForNewsEmail = {   // Minimal user data for news email added from video
+        id: string;
+        name: string;
+        email: string;
+    };
+
     type Stock = {
         symbol: string;
         name: string;
@@ -217,4 +223,4 @@ declare global {
     };
 }
 
-export {};
+export { };
