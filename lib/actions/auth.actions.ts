@@ -1,14 +1,16 @@
 'use server';
 
-import {auth} from "@/lib/better-auth/auth";
-import {inngest} from "@/lib/inngest/client";
-import {headers} from "next/headers";
+import { auth } from "@/lib/better-auth/auth";
+import { inngest } from "@/lib/inngest/client";
+import { headers } from "next/headers";
 
 export const signUpWithEmail = async ({ email, password, fullName, country, investmentGoals, riskTolerance, preferredIndustry }: SignUpFormData) => {
     try {
         const response = await auth.api.signUpEmail({ body: { email, password, name: fullName } })
 
-        if(response) {
+        console.log(response)
+
+        if (response) {
             await inngest.send({
                 name: 'app/user.created',
                 data: { email, name: fullName, country, investmentGoals, riskTolerance, preferredIndustry }
@@ -38,6 +40,25 @@ export const signOut = async () => {
         await auth.api.signOut({ headers: await headers() });
     } catch (e) {
         console.log('Sign out failed', e)
+        return { success: false, error: 'Sign out failed' }
+    }
+}
+
+
+
+export const changePassword = async () => {
+    try {
+        const data = await auth.api.changePassword({
+            body: {
+                newPassword: "testing123", // required
+                currentPassword: "supersecretPass1!", // required
+                revokeOtherSessions: true,
+            },
+            // This endpoint requires session cookies.
+            headers: await headers(),
+        });
+    } catch (e) {
+        console.log('change password', e)
         return { success: false, error: 'Sign out failed' }
     }
 }

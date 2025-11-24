@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 import { mongodbAdapter} from "better-auth/adapters/mongodb";
 import { connectToDatabase} from "@/database/mongoose";
 import { nextCookies} from "better-auth/next-js";
+import { openAPI } from "better-auth/plugins";
 
 let authInstance: ReturnType<typeof betterAuth> | null = null;
 
@@ -25,7 +26,7 @@ export const getAuth = async () => {
             maxPasswordLength: 128,
             autoSignIn: true,
         },
-        plugins: [nextCookies()],
+        plugins: [nextCookies(), openAPI()],
     });
 
     return authInstance;
