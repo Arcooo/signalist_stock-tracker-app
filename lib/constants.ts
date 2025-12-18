@@ -136,6 +136,13 @@ export const MARKET_DATA_WIDGET_CONFIG = {
     backgroundColor: '#0F0F0F',
     symbolsGroups: [
         {
+            name: 'MM',
+            symbols: [
+                { name: 'CBOT_DL:ZQ1!', displayName: 'ZQ' },
+                { name: 'CBOT_DL:CME:ES1!', displayName: 'ZQ' },
+            ],
+        },
+        {
             name: 'Financial',
             symbols: [
                 { name: 'NYSE:JPM', displayName: 'JPMorgan Chase' },
@@ -167,6 +174,7 @@ export const MARKET_DATA_WIDGET_CONFIG = {
                 { name: 'NYSE:V', displayName: 'Visa' },
             ],
         },
+
     ],
 };
 

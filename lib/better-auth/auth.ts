@@ -4,6 +4,7 @@ import { connectToDatabase} from "@/database/mongoose";
 import { nextCookies} from "better-auth/next-js";
 import { openAPI } from "better-auth/plugins";
 
+
 let authInstance: ReturnType<typeof betterAuth> | null = null;
 
 export const getAuth = async () => {
