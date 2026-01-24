@@ -1,43 +1,76 @@
-'use client';
+"use client";
 
-import { useForm } from 'react-hook-form';
-import { Button } from '@/components/ui/button';
-import InputField from '@/components/forms/InputField';
-import FooterLink from '@/components/forms/FooterLink';
-import {signInWithEmail, signUpWithEmail, changePassword} from "@/lib/actions/auth.actions";    //change password
-import {toast} from "sonner";
-import {useRouter} from "next/navigation";
+import React, { memo, useEffect, useId, useRef } from "react";
 
-const SignIn = () => {
-    const router = useRouter()
-    const {
-        register,
-        handleSubmit,
-        formState: { errors, isSubmitting },
-    } = useForm<SignInFormData>({
-        defaultValues: {
-            email: '',
-            password: '',
-        },
-        mode: 'onBlur',
+type TradingViewSymbolProfileProps = {
+  symbol: string; // e.g. "NASDAQ:AAPL"
+  width?: number | "100%";
+  height?: number;
+  colorTheme?: "light" | "dark";
+  isTransparent?: boolean;
+  locale?: string;
+  className?: string;
+};
+
+function TradingViewSymbolProfile({
+  symbol,
+  width = 400,
+  height = 550,
+  colorTheme = "dark",
+  isTransparent = false,
+  locale = "en",
+  className,
+}: TradingViewSymbolProfileProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const widgetId = useId(); // ensures uniqueness across multiple instances
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    // Guard: if already initialized for this render, wipe clean
+    container.innerHTML = "";
+
+    // Create a stable mount node for the script/widget
+    const mount = document.createElement("div");
+    mount.setAttribute("data-tv-mount", widgetId);
+    container.appendChild(mount);
+
+    const script = document.createElement("script");
+    script.src =
+      "https://s3.tradingview.com/external-embedding/embed-widget-symbol-profile.js";
+    script.type = "text/javascript";
+    script.async = true;
+
+    // TradingView reads config from script.innerHTML
+    script.innerHTML = JSON.stringify({
+      symbol,
+      width,
+      height,
+      colorTheme,
+      isTransparent,
+      locale,
     });
 
-    const onSubmit = async (data: SignInFormData) => {
-        try {
-            const result = await signInWithEmail(data);
-            if(result.success) router.push('/');
-        } catch (e) {
-            console.error(e);
-            toast.error('Sign in failed', {
-                description: e instanceof Error ? e.message : 'Failed to sign in.'
-            })
-        }
-    }
+    mount.appendChild(script);
+
+    // Cleanup: remove everything we injected (handles route changes + strict mode)
+    return () => {
+      container.innerHTML = "";
+    };
+  }, [symbol, width, height, colorTheme, isTransparent, locale, widgetId]);
 
   return (
-    <Button onClick={changePassword} className="yellow-btn w-full">
-      Change Password
-    </Button>
+    <div
+      className={className ?? "tradingview-widget-container"}
+      style={{
+        // Prevent layout shift and make SSR/CSR consistent
+        width: typeof width === "number" ? `${width}px` : width,
+        height: `${height}px`,
+      }}
+      ref={containerRef}
+    />
   );
-};
-export default SignIn;
+}
+
+export default memo(TradingViewSymbolProfile);

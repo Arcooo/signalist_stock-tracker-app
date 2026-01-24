@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useRef }     from "react";
+import { useEffect, useRef } from "react";
 
 const useTradingViewWidget = (scriptUrl: string, config: Record<string, unknown>, height = 600) => {
     const containerRef = useRef<HTMLDivElement | null>(null);
@@ -18,7 +18,7 @@ const useTradingViewWidget = (scriptUrl: string, config: Record<string, unknown>
         containerRef.current.dataset.loaded = 'true';
 
         return () => {
-            if(containerRef.current) {
+            if (containerRef.current) {
                 containerRef.current.innerHTML = '';
                 delete containerRef.current.dataset.loaded;
             }

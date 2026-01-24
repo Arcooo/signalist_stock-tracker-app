@@ -57,6 +57,11 @@ export const MARKET_OVERVIEW_WIDGET_CONFIG = {
         {
             title: 'Financial',
             symbols: [
+                { s: 'CMCMarkets:GOLD', d: 'Gold' },
+                { s: 'CMCMarkets:Silver', d: 'Silver' },
+                { s: 'CMCMarkets:palladium', d: 'palladium' },
+                { s: 'CMCMarkets:platinum', d: 'platinum' },
+                { s: 'CMCMarkets:copper', d: 'copper' },
                 { s: 'NYSE:JPM', d: 'JPMorgan Chase' },
                 { s: 'NYSE:WFC', d: 'Wells Fargo Co New' },
                 { s: 'NYSE:BAC', d: 'Bank Amer Corp' },
@@ -114,6 +119,49 @@ export const HEATMAP_WIDGET_CONFIG = {
     height: '600',
 };
 
+export const HEATMAP_WIDGET_RUSSELL2000_CONFIG = {
+    dataSource: 'TVCRUT',
+    blockSize: 'market_cap_basic',
+    blockColor: 'change',
+    grouping: 'sector',
+    isTransparent: true,
+    locale: 'en',
+    symbolUrl: '',
+    colorTheme: 'dark',
+    exchanges: [],
+    hasTopBar: true,
+    isDataSetEnabled: false,
+    isZoomEnabled: true,
+    hasSymbolTooltip: true,
+    isMonoSize: false,
+    width: '100%',
+    height: '600',
+
+
+
+    
+};
+
+        //   "dataSource": "TVCRUT",
+        //   "blockSize": "market_cap_basic",
+        //   "blockColor": "change",
+        //   "grouping": "sector",
+        //   "locale": "en",
+        //   "symbolUrl": "",
+        //   "colorTheme": "dark",
+        //   "exchanges": [],
+        //   "hasTopBar": true,
+        //   "isDataSetEnabled": true,
+        //   "isZoomEnabled": true,
+        //   "hasSymbolTooltip": true,
+        //   "isMonoSize": false,
+        //   "width": "100%",
+        //   "height": "100%"
+
+
+
+
+
 export const TOP_STORIES_WIDGET_CONFIG = {
     displayMode: 'regular',
     feedMode: 'market',
@@ -138,8 +186,10 @@ export const MARKET_DATA_WIDGET_CONFIG = {
         {
             name: 'MM',
             symbols: [
-                { name: 'CBOT_DL:ZQ1!', displayName: 'ZQ' },
-                { name: 'CBOT_DL:CME:ES1!', displayName: 'ZQ' },
+                { name: 'COMEX:GC1!', displayName: 'Gold' },
+                { name: 'TVC:DXY', displayName: 'DXY' },
+                { name: 'NASDAQ:AMD', displayName: 'ZQ' },
+
             ],
         },
         {
